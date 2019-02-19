@@ -1,9 +1,7 @@
 package com.yt.tankgame
 
-import com.yt.tankgame.model.Grass
-import com.yt.tankgame.model.Steel
-import com.yt.tankgame.model.Wall
-import com.yt.tankgame.model.Water
+import com.yt.tankgame.model.*
+import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import org.itheima.kotlin.game.core.Window
 import java.io.File
@@ -20,9 +18,23 @@ import java.io.File
  */
 class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", width = GameConstants.windowWidth, height = GameConstants.windowHeight) {
 	var views = arrayListOf<View>()
+	private lateinit var tank:Tank
 	//创建窗口
 	override fun onCreate() {
 		//创建地图，通过读文件的方式创建地图
+		createMap()
+		tank= Tank(GameConstants.BLOCK*10,GameConstants.BLOCK*12)
+		views.add(tank)
+	}
+
+	/**
+	 * 创建地图，通过读文件的方式创建地图
+	 * @author lei
+	 * @date   2019/2/19 下午4:38
+	 * @return
+	 * @since  v1.0
+	 */
+	private fun createMap() {
 		val file = File(javaClass.getResource("/map/1.map").path)
 		val readLines = file.readLines()
 		var lineNum = 0
@@ -52,7 +64,10 @@ class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", 
 	//事件处理
 	override fun onKeyPressed(event: KeyEvent) {
 		when (event.code) {
-
+           KeyCode.W ->tank.move(Direction.UP)
+           KeyCode.S ->tank.move(Direction.DOWM)
+           KeyCode.A ->tank.move(Direction.LEFT)
+           KeyCode.D ->tank.move(Direction.RIGHT)
 		}
 	}
 
