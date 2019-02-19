@@ -1,3 +1,5 @@
+package com.yt.tankgame
+
 import javafx.application.Application
 
 /**
@@ -13,6 +15,7 @@ import javafx.application.Application
 object Main {
 	@JvmStatic
 	fun main(args:Array<String>){
+		//启动窗体
 		Application.launch(GameWindow::class.java)
 	}
 }
