@@ -1,7 +1,7 @@
 package com.yt.tankgame.model
 
 import com.yt.tankgame.GameConstants
-import com.yt.tankgame.View
+import com.yt.tankgame.business.Blockable
 import org.itheima.kotlin.game.core.Painter
 
 
@@ -15,7 +15,7 @@ import org.itheima.kotlin.game.core.Painter
  * @since:v1.0
  * @desc:com.yt.tankgame.model
  */
-class Steel(override val x: Int, override val y: Int) : View {
+class Steel(override val x: Int, override val y: Int) : Blockable {
 
 	override val width: Int = GameConstants.BLOCK
 	override val height: Int = GameConstants.BLOCK

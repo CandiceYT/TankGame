@@ -1,7 +1,8 @@
 package com.yt.tankgame.model
 
 import com.yt.tankgame.GameConstants
-import com.yt.tankgame.View
+import com.yt.tankgame.business.Blockable
+import com.yt.tankgame.business.Movable
 import org.itheima.kotlin.game.core.Painter
 
 /**
@@ -14,14 +15,28 @@ import org.itheima.kotlin.game.core.Painter
  * @since:v1.0
  * @desc:com.yt.tankgame.model
  */
-class Tank(override var x: Int, override var y: Int) : View {
+class Tank(override var x: Int, override var y: Int) : Movable {
+
+	lateinit var badDirection:Direction
+	override fun notifyCollision(direction: Direction?, blockable: Blockable?) {
+//		接受碰撞消息
+		badDirection = direction!!
+	}
+
+//TODO 待完成
+	override fun willCollision(blockable: Blockable): Direction {
+//		检测碰撞
+		return  currentDirection
+	}
+
+
 	override val width: Int = GameConstants.BLOCK
 	override val height: Int = GameConstants.BLOCK
 
 	//不同方向，坦克不一样
-	private var currentDirection = Direction.UP
+	override var currentDirection = Direction.UP
 	//坦克移动的速度
-	private val speed = 64
+	 override var speed = 64
 
 	override fun draw() {
 		val imgPath = when (currentDirection) {
@@ -42,6 +57,10 @@ class Tank(override var x: Int, override var y: Int) : View {
 	 * @since  v1.0
 	 */
 	fun move(direction: Direction) {
+//		判断是否要往碰撞的方向走,坦克就不走了
+		if (direction == badDirection){
+			return
+		}
 		//只改变方向时，坐标不发生变化
 		if (this.currentDirection != direction) {
 			this.currentDirection = direction

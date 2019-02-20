@@ -1,5 +1,7 @@
 package com.yt.tankgame
 
+import com.yt.tankgame.business.Blockable
+import com.yt.tankgame.business.Movable
 import com.yt.tankgame.model.*
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
@@ -73,6 +75,34 @@ class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", 
 
 	//业务逻辑刷新
 	override fun onRefresh() {
+       //业务逻辑
+
+		//判断运动物体和阻塞物体是否发生碰撞
+		//1.找到运动物体
+		views.filter { it is Movable }.forEach { move->
+			move as Movable
+			var badDirection:Direction? =null
+			var badBlock:Blockable? =null
+			//2.找到阻塞物体
+			views.filter { it is Blockable }.forEach blockTag@{ block->
+				//3.遍历集合，找到是否发生碰撞
+//				move和block是否发生碰撞
+				block as Blockable
+				//获得碰撞的方向
+				val collisionDirection = move.willCollision(block)
+				collisionDirection.let {
+					//移动的发现碰撞，跳出当前循环
+					badDirection =collisionDirection
+					badBlock =block
+					return@blockTag
+				}
+			}
+			//找到和move碰撞的block，找到会碰撞的方向
+			//通知可以移动的物体，会在哪个方向和哪个物体碰撞
+			move.notifyCollision(badDirection,badBlock)
+
+		}
+
 
 	}
 }

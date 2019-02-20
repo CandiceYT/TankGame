@@ -1,7 +1,7 @@
 package com.yt.tankgame.model
 
 import com.yt.tankgame.GameConstants
-import com.yt.tankgame.View
+import com.yt.tankgame.business.Blockable
 import org.itheima.kotlin.game.core.Painter
 
 /**
@@ -14,7 +14,7 @@ import org.itheima.kotlin.game.core.Painter
  * @since:
  * @desc:com.yt.tankgame
  */
-class Wall(override val x: Int, override val y: Int) :View {
+class Wall(override val x: Int, override val y: Int) :Blockable {
 	//墙的宽高
 	override var width = GameConstants.BLOCK
 	override var height = GameConstants.BLOCK

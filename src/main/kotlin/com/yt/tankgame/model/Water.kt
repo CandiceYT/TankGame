@@ -1,7 +1,7 @@
 package com.yt.tankgame.model
 
 import com.yt.tankgame.GameConstants
-import com.yt.tankgame.View
+import com.yt.tankgame.business.Blockable
 import org.itheima.kotlin.game.core.Painter
 
 /**
@@ -14,7 +14,7 @@ import org.itheima.kotlin.game.core.Painter
  * @since:
  * @desc:com.yt.tankgame.model
  */
-class Water(override val x: Int, override val y: Int) :View {
+class Water(override val x: Int, override val y: Int) :Blockable {
 
 	//水的宽高
 	override var width = GameConstants.BLOCK
