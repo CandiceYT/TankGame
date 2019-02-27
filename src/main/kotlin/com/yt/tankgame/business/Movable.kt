@@ -21,7 +21,7 @@ interface Movable:View {
 	val speed: Int
 
 	//判断移动物体是否和阻塞物体发生碰撞,返回的要碰撞的方向，若为null，则可以移动
-	fun willCollision(blockable: Blockable): Direction
+	fun willCollision(blockable: Blockable): Direction?
 
 	//通知碰撞
 	fun notifyCollision(direction: Direction?,blockable: Blockable?)

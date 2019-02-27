@@ -16,17 +16,29 @@ import org.itheima.kotlin.game.core.Painter
  * @desc:com.yt.tankgame.model
  */
 class Tank(override var x: Int, override var y: Int) : Movable {
+	//坦克碰到的错误方向
+	lateinit var badDirection: Direction
 
-	lateinit var badDirection:Direction
 	override fun notifyCollision(direction: Direction?, blockable: Blockable?) {
 //		接受碰撞消息
 		badDirection = direction!!
 	}
 
-//TODO 待完成
-	override fun willCollision(blockable: Blockable): Direction {
+//有问题ß
+	override fun willCollision(blockable: Blockable): Direction? {
 //		检测碰撞
-		return  currentDirection
+		val collision: Boolean = when {
+		//如果阻挡物在运动物的上方
+			blockable.y + blockable.height <= y -> false
+		//如果阻挡物在运动物的下方
+			y + height <= blockable.y -> false
+		//如果阻挡物在运动物的左方
+			blockable.x + blockable.width <= blockable.x -> false
+		//如果阻挡物在运动物的右方
+			else -> x + width > blockable.x
+		}
+
+		return if (collision) currentDirection else null
 	}
 
 
@@ -36,7 +48,7 @@ class Tank(override var x: Int, override var y: Int) : Movable {
 	//不同方向，坦克不一样
 	override var currentDirection = Direction.UP
 	//坦克移动的速度
-	 override var speed = 64
+	override var speed = 16
 
 	override fun draw() {
 		val imgPath = when (currentDirection) {
@@ -58,7 +70,7 @@ class Tank(override var x: Int, override var y: Int) : Movable {
 	 */
 	fun move(direction: Direction) {
 //		判断是否要往碰撞的方向走,坦克就不走了
-		if (direction == badDirection){
+		if (direction == badDirection) {
 			return
 		}
 		//只改变方向时，坐标不发生变化

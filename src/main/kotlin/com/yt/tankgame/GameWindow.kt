@@ -20,12 +20,12 @@ import java.io.File
  */
 class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", width = GameConstants.windowWidth, height = GameConstants.windowHeight) {
 	var views = arrayListOf<View>()
-	private lateinit var tank:Tank
+	private lateinit var tank: Tank
 	//创建窗口
 	override fun onCreate() {
 		//创建地图，通过读文件的方式创建地图
 		createMap()
-		tank= Tank(GameConstants.BLOCK*10,GameConstants.BLOCK*12)
+		tank = Tank(GameConstants.BLOCK * 10, GameConstants.BLOCK * 12)
 		views.add(tank)
 	}
 
@@ -58,33 +58,33 @@ class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", 
 	//窗口渲染时候回调
 	override fun onDisplay() {
 		//绘制图像
-       views.forEach {
-		   it.draw()
-	   }
+		views.forEach {
+			it.draw()
+		}
 	}
 
 	//事件处理
 	override fun onKeyPressed(event: KeyEvent) {
 		when (event.code) {
-           KeyCode.W ->tank.move(Direction.UP)
-           KeyCode.S ->tank.move(Direction.DOWM)
-           KeyCode.A ->tank.move(Direction.LEFT)
-           KeyCode.D ->tank.move(Direction.RIGHT)
+			KeyCode.W -> tank.move(Direction.UP)
+			KeyCode.S -> tank.move(Direction.DOWM)
+			KeyCode.A -> tank.move(Direction.LEFT)
+			KeyCode.D -> tank.move(Direction.RIGHT)
 		}
 	}
 
 	//业务逻辑刷新
 	override fun onRefresh() {
-       //业务逻辑
+		//业务逻辑
 
 		//判断运动物体和阻塞物体是否发生碰撞
 		//1.找到运动物体
-		views.filter { it is Movable }.forEach { move->
+		views.filter { it is Movable }.forEach { move ->
 			move as Movable
-			var badDirection:Direction? =null
-			var badBlock:Blockable? =null
+			var badDirection: Direction? = null
+			var badBlock: Blockable? = null
 			//2.找到阻塞物体
-			views.filter { it is Blockable }.forEach blockTag@{ block->
+			views.filter { it is Blockable }.forEach blockTag@{ block ->
 				//3.遍历集合，找到是否发生碰撞
 //				move和block是否发生碰撞
 				block as Blockable
@@ -92,14 +92,14 @@ class GameWindow : Window(title = "坦克大战1.0", icon = "tank/p1tankU.gif", 
 				val collisionDirection = move.willCollision(block)
 				collisionDirection.let {
 					//移动的发现碰撞，跳出当前循环
-					badDirection =collisionDirection
-					badBlock =block
+					badDirection = collisionDirection
+					badBlock = block
 					return@blockTag
 				}
 			}
 			//找到和move碰撞的block，找到会碰撞的方向
 			//通知可以移动的物体，会在哪个方向和哪个物体碰撞
-			move.notifyCollision(badDirection,badBlock)
+			move.notifyCollision(badDirection, badBlock)
 
 		}
 
