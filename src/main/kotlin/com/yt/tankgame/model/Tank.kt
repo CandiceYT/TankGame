@@ -24,20 +24,19 @@ class Tank(override var x: Int, override var y: Int) : Movable {
 		badDirection = direction!!
 	}
 
-//有问题ß
+	//有问题ß
 	override fun willCollision(blockable: Blockable): Direction? {
 //		检测碰撞
 		val collision: Boolean = when {
-		//如果阻挡物在运动物的上方
+			//如果阻挡物在运动物的上方
 			blockable.y + blockable.height <= y -> false
-		//如果阻挡物在运动物的下方
+			//如果阻挡物在运动物的下方
 			y + height <= blockable.y -> false
-		//如果阻挡物在运动物的左方
-			blockable.x + blockable.width <= blockable.x -> false
-		//如果阻挡物在运动物的右方
+			//如果阻挡物在运动物的左方
+			blockable.x + blockable.width <= x -> false
 			else -> x + width > blockable.x
 		}
-
+       //TODO  当我方坦克周围没有阻挡物，意思走else条件，但是会出现坦克不能移动的现象，即走else条件的时候，返回的方向值不能为null
 		return if (collision) currentDirection else null
 	}
 
